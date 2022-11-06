@@ -12,9 +12,13 @@ function App() {
     { id: 4, title: 'JavaScript4', body: 'Description4' },
   ]);
 
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost]);
+  };
+
   return (
     <div className="App">
-      <PostForm />
+      <PostForm create={createPost} />
       <PostsList posts={posts} title={'Список постов про JavaScript'} />
     </div>
   );

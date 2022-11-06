@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../Post/Post.module.css';
 
-const Post = ({ post }) => {
+const Post = ({ post, number }) => {
   return (
     <div className={styles.post}>
       <div className={styles.content}>
         <strong>
-          {post.id}. {post.title}
+          {number}. {post.title}
         </strong>
         <div>{post.body}</div>
       </div>
