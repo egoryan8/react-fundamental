@@ -16,10 +16,18 @@ function App() {
     setPosts([...posts, newPost]);
   };
 
+  const removePost = (post) => {
+    setPosts(posts.filter((p) => p.id !== post.id));
+  };
+
   return (
     <div className="App">
       <PostForm create={createPost} />
-      <PostsList posts={posts} title={'Список постов про JavaScript'} />
+      {posts.length ? (
+        <PostsList remove={removePost} posts={posts} title={'Список постов про JavaScript'} />
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>{'Постов пока нет :('}</h1>
+      )}
     </div>
   );
 }
