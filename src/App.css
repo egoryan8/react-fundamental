@@ -12,3 +12,25 @@
 .App {
   width: 800px;
 }
+
+.post-enter {
+  opacity: 0;
+  transform: translateX(-350px);
+}
+
+.post-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+
+.post-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.post-exit-active {
+  transform: translateX(-350px);
+  transition: all 500ms ease-in;
+  opacity: 0;
+}
