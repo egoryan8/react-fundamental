@@ -3,7 +3,7 @@ import MyButton from '../UI/button/MyButton';
 import MyInput from '../UI/input/MyInput';
 import styles from './PostForm.module.css';
 
-const PostForm = ({ create }) => {
+const PostForm = ({ create, setModal }) => {
   const [post, setPost] = useState({ title: '', body: '' });
   const addNewPost = (e) => {
     e.preventDefault();
@@ -14,6 +14,7 @@ const PostForm = ({ create }) => {
     };
     create(newPost);
     setPost({ title: '', body: '' });
+    setModal(false);
   };
   return (
     <form className={styles.form}>
