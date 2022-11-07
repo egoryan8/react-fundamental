@@ -2,12 +2,12 @@ import React from 'react';
 import styles from '../Post/Post.module.css';
 import MyButton from '../UI/button/MyButton';
 
-const Post = ({ post, number, remove }) => {
+const Post = ({ post, remove }) => {
   return (
     <div className={styles.post}>
       <div className={styles.content}>
         <strong>
-          {number}. {post.title}
+          {post.id}. {post.title}
         </strong>
         <div>{post.body}</div>
       </div>

@@ -34,3 +34,22 @@
   transition: all 500ms ease-in;
   opacity: 0;
 }
+
+.pagination__wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.pagination__item {
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid teal;
+  cursor: pointer;
+}
+
+.pagination__item_active {
+  background-color: teal;
+  color: white;
+}
