@@ -1,0 +1,6 @@
+.preloader {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  height: 100vh;
+}
