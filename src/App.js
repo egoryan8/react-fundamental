@@ -7,6 +7,7 @@ import PostsList from './components/PostsList/PostsList';
 import MyButton from './components/UI/button/MyButton';
 import MyModal from './components/UI/modal/MyModal';
 import Preloader from './components/UI/preloader/Preloader';
+import { useFetching } from './hooks/useFetching';
 import { usePosts } from './hooks/usePosts';
 
 function App() {
@@ -14,7 +15,10 @@ function App() {
   const [filter, setFilter] = useState({ searchValue: '', sort: '' });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.searchValue);
-  const [isPostsLoading, setIsPostsLoading] = useState(null);
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+    const posts = await PostService.getAll();
+    setPosts(posts);
+  });
 
   useEffect(() => {
     fetchPosts();
@@ -28,13 +32,6 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
 
-  async function fetchPosts() {
-    setIsPostsLoading(true);
-    const posts = await PostService.getAll();
-    setPosts(posts);
-    setIsPostsLoading(false);
-  }
-
   return (
     <div className="App">
       <MyButton style={{ margin: '10px 0' }} onClick={() => setModal(true)}>
@@ -44,10 +41,18 @@ function App() {
         <PostForm create={createPost} setModal={setModal} />
       </MyModal>
       <PostFilter filter={filter} setFilter={setFilter} />
+
       {isPostsLoading ? (
         <Preloader />
-      ) : (
+      ) : !postError ? (
         <PostsList remove={removePost} posts={sortedAndSearchedPosts} title={'Список постов'} />
+      ) : (
+        <h2
+          style={{
+            textAlign: 'center',
+            margin: '50px auto 0',
+            maxWidth: '300px',
+          }}>{`Произошла ошибка: ${postError}`}</h2>
       )}
     </div>
   );
