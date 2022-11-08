@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePosts } from '../hooks/usePosts';
 import { useFetching } from '../hooks/useFetching';
 import { getPagesArray } from '../utils/pages';
@@ -11,6 +11,7 @@ import PostFilter from '../components/PostFilter';
 import PostsList from '../components/PostsList/PostsList';
 import Preloader from '../components/UI/preloader/Preloader';
 import Paginator from '../components/UI/Paginator';
+import { useObserver } from '../hooks/useObserver';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -24,11 +25,17 @@ function Posts() {
 
   const pagesArray = getPagesArray(totalPages);
 
+  const lastElement = useRef();
+
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const res = await PostService.getAll(limit, currentPage);
-    setPosts(res.data);
+    setPosts([...posts, ...res.data]);
     const totalCount = res.headers['x-total-count'];
     setTotalPages(getPagesCount(totalCount, limit));
+  });
+
+  useObserver(lastElement, currentPage < totalPages, isPostsLoading, () => {
+    setCurrentPage(currentPage + 1);
   });
 
   useEffect(() => {
@@ -52,12 +59,8 @@ function Posts() {
         <PostForm create={createPost} setModal={setModal} />
       </MyModal>
       <PostFilter filter={filter} setFilter={setFilter} />
-
-      {isPostsLoading ? (
-        <Preloader />
-      ) : !postError ? (
-        <PostsList remove={removePost} posts={sortedAndSearchedPosts} title={'Список постов'} />
-      ) : (
+      {isPostsLoading && <Preloader />}
+      {postError && (
         <h2
           style={{
             textAlign: 'center',
@@ -65,11 +68,13 @@ function Posts() {
             maxWidth: '300px',
           }}>{`Произошла ошибка: ${postError}`}</h2>
       )}
-      <Paginator
+      <PostsList remove={removePost} posts={sortedAndSearchedPosts} title={'Список постов'} />
+      <div ref={lastElement} style={{ height: 20, background: 'transparent' }}></div>
+      {/* <Paginator
         pagesArray={pagesArray}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-      />
+      /> */}
     </div>
   );
 }
