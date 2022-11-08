@@ -6,3 +6,8 @@
   padding: 15px;
   border: 2px solid teal;
 }
+
+.buttons {
+  display: flex;
+  margin-left: 10px;
+}

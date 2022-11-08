@@ -1,18 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
-import PostService from './API/PostService';
-import './App.css';
-import PostFilter from './components/PostFilter';
-import PostForm from './components/PostForm/PostForm';
-import PostsList from './components/PostsList/PostsList';
-import MyButton from './components/UI/button/MyButton';
-import MyModal from './components/UI/modal/MyModal';
-import Paginator from './components/UI/Paginator';
-import Preloader from './components/UI/preloader/Preloader';
-import { useFetching } from './hooks/useFetching';
-import { usePosts } from './hooks/usePosts';
-import { getPagesArray, getPagesCount } from './utils/pages';
+import { useEffect, useState } from 'react';
+import { usePosts } from '../hooks/usePosts';
+import { useFetching } from '../hooks/useFetching';
+import { getPagesArray } from '../utils/pages';
+import { getPagesCount } from '../utils/pages';
+import PostService from '../API/PostService';
+import MyButton from '../components/UI/button/MyButton';
+import MyModal from '../components/UI/modal/MyModal';
+import PostForm from '../components/PostForm/PostForm';
+import PostFilter from '../components/PostFilter';
+import PostsList from '../components/PostsList/PostsList';
+import Preloader from '../components/UI/preloader/Preloader';
+import Paginator from '../components/UI/Paginator';
 
-function App() {
+function Posts() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ searchValue: '', sort: '' });
   const [modal, setModal] = useState(false);
@@ -74,4 +74,4 @@ function App() {
   );
 }
 
-export default App;
+export default Posts;
