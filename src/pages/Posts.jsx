@@ -12,6 +12,7 @@ import PostsList from '../components/PostsList/PostsList';
 import Preloader from '../components/UI/preloader/Preloader';
 import Paginator from '../components/UI/Paginator';
 import { useObserver } from '../hooks/useObserver';
+import MySelect from '../components/UI/select/MySelect';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -40,7 +41,7 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts();
-  }, [currentPage]);
+  }, [currentPage, limit]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -59,6 +60,17 @@ function Posts() {
         <PostForm create={createPost} setModal={setModal} />
       </MyModal>
       <PostFilter filter={filter} setFilter={setFilter} />
+      <MySelect
+        value={limit}
+        onChange={(value) => setLimit(value)}
+        defaultValue="Кол-во элементов на странице"
+        options={[
+          { value: 5, name: '5' },
+          { value: 10, name: '10' },
+          { value: 15, name: '15' },
+          { value: -1, name: 'Показать все' },
+        ]}
+      />
       {isPostsLoading && <Preloader />}
       {postError && (
         <h2
