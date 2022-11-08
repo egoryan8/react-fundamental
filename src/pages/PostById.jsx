@@ -12,26 +12,42 @@ const PostById = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState({});
+  const [comments, setComments] = useState([]);
   const [fetchPostById, isLoading, error] = useFetching(async () => {
     const res = await PostService.getById(params.id);
     setPost(res.data);
   });
 
+  const [fetchCommsById, isComLoading, comError] = useFetching(async () => {
+    const res = await PostService.getCommentsById(params.id);
+    setComments(res.data);
+  });
+
   useEffect(() => {
     fetchPostById();
-    console.log(post);
+    fetchCommsById();
   }, []);
 
   return (
     <div className={styles.wrapper}>
       <MyButton onClick={() => navigate('/')}>К постам</MyButton>
       <h1 className={styles.header}>Вы открыли страницу с постом №{params.id}</h1>
-      {isLoading ? (
+      {isLoading && isComLoading ? (
         <Preloader />
       ) : (
-        <div className={styles.text}>
-          {post.id}. {post.title}
-          <div className={styles.body}>{post.body}</div>
+        <div>
+          <div className={styles.text}>
+            {post.id}. {post.title}
+            <div className={styles.body}>{post.body}</div>
+            <hr />
+            <h2 className={styles.commsHeader}>Комментарии</h2>
+            {comments.map((comm) => (
+              <div className={styles.comment}>
+                <h5>{comm.email}</h5>
+                <p>{comm.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

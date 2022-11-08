@@ -23,4 +23,19 @@
   margin-top: 10px;
   font-weight: normal;
   color: black;
+  padding-bottom: 50px;
+}
+
+.commsHeader {
+  margin-top: 10px;
+  color: black;
+  font-style: italic;
+}
+
+.comment {
+  margin: 12px;
+}
+
+.comment p {
+  color: black;
 }
